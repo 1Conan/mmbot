@@ -12,6 +12,7 @@ module.exports = class extends Command {
 	async run(msg) {
         this.client.musicQueues[msg.guild.id] = [];
         msg.guild.voiceConnection.disconnect();
+        msg.guild.me.voiceChannel.leave();
         return msg.reply('I have attempted to fix the music system. If the issue persists, please join the support server and tell us.');
 	}
 
