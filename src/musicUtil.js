@@ -32,11 +32,12 @@ exports.playNextSong = async (client, guild, voiceChannel, textChannel) => {
         }
     });
     
-    setInterval(() => {
+    const memberCheck = setInterval(() => {
         if (!guild.voiceConnection) return;
         if (voiceChannel.members.size >= 2) return;
         voiceChannel.leave();
         client.musicQueues[guild.id] = [];
         textChannel.send('😴 All members have left the voice channel, so I left too.');
+        clearInterval(memberCheck);
     }, 60000 * 2);
 }
