@@ -72,3 +72,18 @@ router.put('/:id/roles/djrole', async (req, res) => {
     await guild.configs.update('djRole', role, guild);
     return res.json({ response: 'updated djRole, see djRole property', djRole: role.id });
 });
+
+// modRole must be a role ID!
+router.put('/:id/roles/modrole', async (req, res) => {
+    if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
+    const guild = await client.guilds.get(req.params.id);
+    if (!guild) return res.status(404).json({ error: 'invalid guild' });
+    if (!req.body.modRole) return res.status(400).json({ error: 'no role provided' });
+    if (typeof req.body.modRole !== 'string') return res.status(400).json({ error: 'role id must be a string' });
+
+    const role = await guild.roles.get(req.body.modRole);
+    if (!role) return res.status(404).json({ error: 'invalid role' });
+
+    await guild.configs.update('modRole', role, guild);
+    return res.json({ response: 'updated modRole, see djRole property', modRole: role.id });
+});

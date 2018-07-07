@@ -9,7 +9,7 @@ const client = module.exports = new Client({
     permissionLevels: new PermissionLevels()
         .add(0, () => true)
         .add(4, (client, msg) => msg.member.roles.find(r => r.id == msg.guild.configs.get('djRole')))
-        .add(5, (client, msg) => msg.member.roles.find(r => r.name.toLowerCase() == 'mmbot moderator'))
+        .add(5, (client, msg) => msg.member.roles.find(r => r.id == msg.guild.configs.get('modRole')))
         .add(6, (client, msg) => msg.guild && msg.member.permissions.has('MANAGE_GUILD'), { fetch: true })
         .add(7, (client, msg) => msg.guild && msg.member.id === msg.guild.owner.id, { fetch: true })
         .add(9, (client, msg) => msg.author.id == client.owner.id, { break: true })
