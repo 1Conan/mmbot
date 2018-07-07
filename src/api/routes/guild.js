@@ -27,3 +27,18 @@ router.put('/:id/prefix', async (req, res) => {
     guild.configs.update('prefix', req.body.prefix);
     res.json({ response: 'updated prefix, see prefix property', prefix: guild.configs.get('prefix') });
 });
+
+router.put('/:id/nick', async (req, res) => {
+    if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
+    const guild = await client.guilds.get(req.params.id);
+    if (!guild) return res.status(404).json({ error: 'invalid guild' });
+    if (!req.body.nick) return res.status(400).json({ error: 'no nickname provided' });
+    if (typeof req.body.nick !== 'string') return res.status(400).json({ error: 'nickname must be a string' });
+    if (req.body.nick.length > 32) return res.status(400).json({ error: 'nickname must be no longer than 32 characters' });
+    if (req.body.nick.length < 1) return res.status(400).json({ error: 'nickname too short' });
+    if (!guild.me.hasPermission('CHANGE_NICKNAME')) return res.status(403).json({ error: 'bot missing change nickname permission' });
+
+    guild.me.setNickname(req.body.nick);
+    guild.configs.update('nickname', req.body.nick);
+    res.json({ response: 'updated nickname, see nick property', nick: guild.configs.get('nick') });
+});
