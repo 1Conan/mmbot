@@ -5,7 +5,8 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			aliases: ['next'],
-			description: 'Pass a vote to skip the current song',
+            description: 'Pass a vote to skip the current song',
+            enabled: false
 		});
 	}
 
