@@ -26,6 +26,14 @@ router.get('/:id/roles', async (req, res) => {
     return res.json({ roles });
 });
 
+router.get('/:id/channels', async (req, res) => {
+    if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
+    const guild = await client.guilds.get(req.params.id);
+    if (!guild) return res.status(404).json({ error: 'invalid guild' });
+    const channels = await guild.channels;
+    return res.json({ channels });
+});
+
 router.get('/:id/owner', async (req, res) => {
     if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
     const guild = await client.guilds.get(req.params.id);
@@ -86,4 +94,65 @@ router.put('/:id/roles/modrole', async (req, res) => {
 
     await guild.configs.update('roles.modRole', role, guild);
     return res.json({ response: 'updated modRole, see djRole property', modRole: role.id });
+});
+
+// STARBOARD
+
+router.put('/:id/starboard/self', async (req, res) => {
+    if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
+    const guild = await client.guilds.get(req.params.id);
+    if (!guild) return res.status(404).json({ error: 'invalid guild' });
+    if (!req.body.allowed) return res.status(400).json({ error: 'no "allowed" property provided' });
+    if (typeof req.body.allowed !== 'boolean') return res.status(400).json({ error: '"allowed" property must be a boolean' });
+
+    await guild.configs.update('starboard.allowSelfStar', req.body.allowed, guild);
+    return res.json({ response: 'updated allowSelfStar, see allowSelfStar property', allowSelfStar: guild.configs.starboard.allowSelfStar });
+});
+
+router.put('/:id/starboard/emoji', async (req, res) => {
+    if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
+    const guild = await client.guilds.get(req.params.id);
+    if (!guild) return res.status(404).json({ error: 'invalid guild' });
+    if (!req.body.emoji) return res.status(400).json({ error: 'no emoji provided' });
+    if (typeof req.body.emoji !== 'string') return res.status(400).json({ error: 'emoji must be a string' });
+    if (!guild.configs.premium) return res.status(403).json({ error: 'custom emojis are limited' });
+
+    await guild.configs.update('starboard.emoji', req.body.emoji, guild);
+    return res.json({ response: 'updated emoji, see emoji property', emoji: guild.configs.starboard.emoji });
+});
+
+router.put('/:id/starboard/enabled', async (req, res) => {
+    if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
+    const guild = await client.guilds.get(req.params.id);
+    if (!guild) return res.status(404).json({ error: 'invalid guild' });
+    if (req.body.enabled == null || req.body.enabled == undefined) return res.status(400).json({ error: 'no "enabled" property provided' });
+    if (typeof req.body.enabled !== 'boolean') return res.status(400).json({ error: '"enabled" property must be a boolean' });
+
+    await guild.configs.update('starboard.enabled', req.body.enabled, guild);
+    return res.json({ response: `${guild.configs.starboard.enabled ? 'enabled starboard' : 'disabled starboard'}`, enabled: guild.configs.starboard.enabled });
+});
+
+router.put('/:id/starboard/minimum_stars', async (req, res) => {
+    if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
+    const guild = await client.guilds.get(req.params.id);
+    if (!guild) return res.status(404).json({ error: 'invalid guild' });
+    if (!req.body.minimum_stars) return res.status(400).json({ error: 'no minimum_stars provided' });
+    if (typeof req.body.minimum_stars !== 'number') return res.status(400).json({ error: 'minimum_stars must be a number' });
+    if (req.body.minimum_stars < 1 || req.body.minimum_stars > 10) return res.status(400).json({ error: 'must be between 1 and 10' });
+
+    await guild.configs.update('starboard.minimumStars', req.body.minimum_stars, guild);
+    return res.json({ response: 'updated minimum stars, see minimum_stars property', minimum_stars: guild.configs.starboard.minimumStars });
+});
+
+router.put('/:id/starboard/channel', async (req, res) => {
+    if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
+    const guild = await client.guilds.get(req.params.id);
+    if (!guild) return res.status(404).json({ error: 'invalid guild' });
+    if (!req.body.channel) return res.status(400).json({ error: 'no channel provided' });
+    if (typeof req.body.channel !== 'string') return res.status(400).json({ error: 'channel id must be a string' });
+    const channel = await client.channels.get(req.body.channel);
+    if (!channel) return res.status(404).json({ error: 'invalid channel' });
+
+    await guild.configs.update('starboard.starboardChannel', req.body.channel, guild);
+    return res.json({ response: 'updated starboard channel, see channel property', channel: guild.configs.starboard.starboardChannel });
 });
