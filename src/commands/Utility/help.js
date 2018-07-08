@@ -12,7 +12,7 @@ module.exports = class extends Command {
 	}
 
 	async run(msg) {
-		return msg.channel.send(`View the full list of commands at **${webUri}/commands**.\nView the in-depth documentation at **${webUri}/go/docs**.\n\nIf you still need help, join the support server at https://discord.gg/CdaSWx6`);
+		return msg.channel.send(`View the full list of commands at **${webUri}/commands**.\nEach feature (starboard, auto-moderation, permissions, etc) is explained on the Dashboard.\n\nIf you still need help, join the support server at https://discord.gg/CdaSWx6`);
 	}
 
 };
