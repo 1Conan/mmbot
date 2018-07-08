@@ -11,9 +11,9 @@ module.exports = class extends Extendable {
             case 0:
                 return true;
             case 4:
-                return this.roles.find(r => r.id == this.guild.configs.get('djRole'));
+                return this.roles.some(r => r.id == this.guild.configs.get('djRole'));
             case 5:
-                return this.roles.find(r => r.id == this.guild.configs.get('modRole'));
+                return this.roles.some(r => r.id == this.guild.configs.get('modRole'));
             case 6:
                 return this.permissions.has('MANAGE_GUILD');
             case 7:
