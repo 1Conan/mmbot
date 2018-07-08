@@ -69,7 +69,7 @@ router.put('/:id/roles/djrole', async (req, res) => {
     const role = await guild.roles.get(req.body.djRole);
     if (!role) return res.status(404).json({ error: 'invalid role' });
 
-    await guild.configs.update('djRole', role, guild);
+    await guild.configs.update('roles.djRole', role, guild);
     return res.json({ response: 'updated djRole, see djRole property', djRole: role.id });
 });
 
@@ -84,6 +84,6 @@ router.put('/:id/roles/modrole', async (req, res) => {
     const role = await guild.roles.get(req.body.modRole);
     if (!role) return res.status(404).json({ error: 'invalid role' });
 
-    await guild.configs.update('modRole', role, guild);
+    await guild.configs.update('roles.modRole', role, guild);
     return res.json({ response: 'updated modRole, see djRole property', modRole: role.id });
 });
