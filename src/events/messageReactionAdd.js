@@ -10,23 +10,6 @@ module.exports = class extends Event {
         });
     }
 
-    /* 
-        Notes to self tomorrow:
-        3. (done, but leaving here for reference) the starboard SchemaFolder must have the following:
-            - is the starboard enabled or not?
-            - starboard channel id
-            - minimum stars for starboard
-            - (maybe for premium guilds??) custom starboard emoji
-            - array of blacklisted users?
-            - is self-starring allowed???
-        4. rowboat's starboard can inspire you - check discordboats.club #starboard
-        5. do the DJ role giveaway later on in the day
-        6. maybe do the skip and forceskip commands
-        7. do the starboard and dash page for it... starboard is below, currently unfinished
-        8. maybe get started on tags?? :o
-        9. i really hope you read this. good morning, if you do!
-        10. maybe do guild logs and some more cool stuff
-    */
     async run(reaction, user) {
         const msg = reaction.message;
         if (!msg.guild || msg.system) return;
