@@ -171,10 +171,9 @@ discord.js@hydrabolt/discord.js:
   version "12.0.0-dev"
   resolved "https://codeload.github.com/hydrabolt/discord.js/tar.gz/6b3bfdd7dede049ba592e94ef1b1acc40a5e37fe"
   dependencies:
-    form-data "^2.3.2"
-    node-fetch "^2.1.2"
     pako "^1.0.0"
-    prism-media "^0.3.0"
+    prism-media "^0.2.0"
+    snekfetch "^3.6.0"
     tweetnacl "^1.0.0"
     ws "^4.0.0"
 
@@ -419,6 +418,12 @@ http-signature@~1.2.0:
 iconv-lite@0.4.19:
   version "0.4.19"
   resolved "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
+
+idiotic-api@^0.2.11:
+  version "0.2.11"
+  resolved "https://registry.npmjs.org/idiotic-api/-/idiotic-api-0.2.11.tgz#afd06e61bbdf4c4e398264e50ecfa71cab6fecee"
+  dependencies:
+    snekfetch "^3.6.4"
 
 ienoopen@1.0.0:
   version "1.0.0"
@@ -764,6 +769,10 @@ setprototypeof@1.0.3:
 setprototypeof@1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
+
+snekfetch@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.npmjs.org/snekfetch/-/snekfetch-3.6.4.tgz#d13e80a616d892f3d38daae4289f4d258a645120"
 
 sshpk@^1.7.0:
   version "1.14.2"

@@ -1,5 +1,6 @@
 const { Client, PermissionLevels } = require('klasa');
-const { token, prefix } = require('../config.json');
+const { token, prefix, idiotApiKey } = require('../config.json');
+const Idiot = require('idiotic-api');
 
 const client = module.exports = new Client({
     clientOptions: {
@@ -16,7 +17,7 @@ const client = module.exports = new Client({
         .add(10, (client, msg) => msg.author.id == client.owner.id),
     disabledCorePieces: ['commands'],
     cmdEditing: true,
-    typing: false,
+    typing: true,
     gateways: {
         guilds: { provider: 'rethinkdb' },
         users: { provider: 'rethinkdb' },
@@ -25,6 +26,8 @@ const client = module.exports = new Client({
     providers: { rethinkdb: { db: 'mmbot' } },
     readyMessage: (client) => '[client] ' + client.user.tag + ' is ready :)'
 });
+
+client.idiot = new Idiot.Client(idiotApiKey, { dev: true });
 
 client.login(token);
 require('./api/api.js')();
