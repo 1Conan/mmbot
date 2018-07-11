@@ -156,3 +156,31 @@ router.put('/:id/starboard/channel', async (req, res) => {
     await guild.configs.update('starboard.starboardChannel', req.body.channel, guild);
     return res.json({ response: 'updated starboard channel, see channel property', channel: guild.configs.starboard.starboardChannel });
 });
+
+
+// AUTO ROLE
+
+router.put('/:id/autorole/role', async (req, res) => {
+    if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
+    const guild = await client.guilds.get(req.params.id);
+    if (!guild) return res.status(404).json({ error: 'invalid guild' });
+    if (!req.body.autoRole) return res.status(400).json({ error: 'no role provided' });
+    if (typeof req.body.autoRole !== 'string') return res.status(400).json({ error: 'role id must be a string' });
+
+    const role = await guild.roles.get(req.body.autoRole);
+    if (!role) return res.status(404).json({ error: 'invalid role' });
+
+    await guild.configs.update('autoRole.role', role, guild);
+    return res.json({ response: 'updated role, see autoRole property', autoRole: role.id });
+});
+
+router.put('/:id/autorole/enabled', async (req, res) => {
+    if (!req.params.id) return res.status(400).json({ error: 'no guild id passed' });
+    const guild = await client.guilds.get(req.params.id);
+    if (!guild) return res.status(404).json({ error: 'invalid guild' });
+    if (req.body.enabled == null || req.body.enabled == undefined) return res.status(400).json({ error: 'no "enabled" property provided' });
+    if (typeof req.body.enabled !== 'boolean') return res.status(400).json({ error: '"enabled" property must be a boolean' });
+
+    await guild.configs.update('autoRole.enabled', req.body.enabled, guild);
+    return res.json({ response: `${guild.configs.autoRole.enabled ? 'enabled auto role' : 'disabled auto role'}`, enabled: guild.configs.autoRole.enabled });
+});
