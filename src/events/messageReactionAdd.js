@@ -4,12 +4,6 @@ const { webUri } = require('../../config.json');
 
 module.exports = class extends Event {
 
-    constructor(...args) {
-        super(...args, {
-            enabled: true
-        });
-    }
-
     async run(reaction, user) {
         const msg = reaction.message;
         if (!msg.guild || msg.system) return;
