@@ -5,7 +5,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
             description: 'Reverse text',
-            usage: '<query:str> [...]'
+            usage: '<query:str>'
 		});
 	}
 
