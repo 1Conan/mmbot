@@ -11,7 +11,7 @@ module.exports = class extends Command {
 	}
 
 	async run(msg) {
-		return msg.channel.send(`You can invite mmbot using this link: <**${webUri}/go/invite**>`);
+		return msg.channel.send(`You can invite mmbot using this link: **<${webUri}/go/invite>**`);
 	}
 
 };
