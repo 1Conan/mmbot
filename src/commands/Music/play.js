@@ -24,6 +24,7 @@ module.exports = class extends Command {
 	    const permissions = voiceChannel.permissionsFor(msg.guild.me);
 		if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) return msg.reply('I don\'t have the necessary permissions to join your voice channel (CONNECT & SPEAK).');
 
+        msg.channel.send(`⚠ mmbot music is still unstable. You're welcome to use it, but bugs may be present. If you encounter one of these bugs, please join the support server (**${msg.guild.configs.prefix}help**) and report it.`);
         if (!this.client.musicQueues[msg.guild.id]) this.client.musicQueues[msg.guild.id] = [];
 
         const results = await search(query, searchOptions);
